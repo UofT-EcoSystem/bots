@@ -30,6 +30,8 @@ while [ "$#" -gt 0  ]; do
    shift
 done
 
+# LLV added to test clang
+LLV=`clang -x c -c -fopenmp /dev/null -o /dev/null &>/dev/null  && echo "yes"`
 GCC=`gcc -x c -c -fopenmp /dev/null -o /dev/null &>/dev/null  && echo "yes"`
 MCC=`mcc --v &> /dev/null && echo "yes"`
 ICC=`icc -v &> /dev/null && echo "yes"`
@@ -41,6 +43,11 @@ nc=0
 
 if [ -z "$COMPILER" ]; then
 
+   if [ "$LLV" = "yes" ]; then
+      let nc=nc+1
+      COMPILERS[nc]="clang"
+   fi
+   
    if [ "$GCC" = "yes" ]; then
       let nc=nc+1
       COMPILERS[nc]="gcc"
@@ -90,6 +97,22 @@ fi
 
 [ "$debug" = "yes" ] && DEBUG=-DBOTS_DEBUG
 [ "$warnings" = "yes" ] && WARNINGS=
+
+if [ "$COMPILER" = "clang" -a "$LLV" = "yes" ]; then
+   CC=clang
+   CLINK=$CC
+   OMPC="$CC -fopenmp"
+   OMPLINK="$CC -fopenmp"
+   LABEL=clang
+   [ "$debug" = "yes" ] && DEBUG=$DEBUG -g
+   [ "$warnings" = "yes" ] && WARNINGS="$WARNINGS -Wall -Werror"
+
+   OPT_FLAGS=-O3
+   CC_FLAGS="$DEBUG $WARNINGS"
+   OMPC_FLAGS="$DEBUG $WARNINGS"
+   CLINK_FLAGS=$DEBUG
+   OMPLINK_FLAGS=$DEBUG
+fi
 
 if [ "$COMPILER" = "gcc" -a "$GCC" = "yes" ]; then
    CC=gcc
