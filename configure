@@ -6,7 +6,7 @@ show_help ()
 {
    echo "$0 options:"
    echo "--compiler name    Configures BOTS for given compiler"
-   echo "                   Supported compilers: GCC, ICC, SunStudio, PGI, XLC and  Mercurium"
+   echo "                   Supported compilers: Clang, GCC, ICC, SunStudio, PGI, XLC and  Mercurium"
    echo "--debug            Enables debug flags"
    echo "--warnings         Force warnings to be reported as errors"
    echo "--help             Prints this help"
@@ -104,10 +104,10 @@ if [ "$COMPILER" = "clang" -a "$LLV" = "yes" ]; then
    OMPC="$CC -fopenmp"
    OMPLINK="$CC -fopenmp"
    LABEL=clang
-   [ "$debug" = "yes" ] && DEBUG="$DEBUG -g"
+   [ "$debug" = "yes" ] && DEBUG="$DEBUG -g -v"
    [ "$warnings" = "yes" ] && WARNINGS="$WARNINGS -Wall -Werror"
 
-   OPT_FLAGS=-O3
+   OPT_FLAGS=-Ofast
    CC_FLAGS="$DEBUG $WARNINGS"
    OMPC_FLAGS="$DEBUG $WARNINGS"
    CLINK_FLAGS=$DEBUG
@@ -120,10 +120,10 @@ if [ "$COMPILER" = "gcc" -a "$GCC" = "yes" ]; then
    OMPC="$CC -fopenmp"
    OMPLINK="$CC -fopenmp"
    LABEL=gcc
-   [ "$debug" = "yes" ] && DEBUG="$DEBUG -g"
+   [ "$debug" = "yes" ] && DEBUG="$DEBUG -g -v"
    [ "$warnings" = "yes" ] && WARNINGS="$WARNINGS -Wall -Werror"
 
-   OPT_FLAGS=-O3
+   OPT_FLAGS=-Ofast
    CC_FLAGS="$DEBUG $WARNINGS"
    OMPC_FLAGS="$DEBUG $WARNINGS"
    CLINK_FLAGS=$DEBUG
