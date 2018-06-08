@@ -1,7 +1,8 @@
 #!/bin/bash
 #defaults
 
-DEF_INPUTS=medium.input
+#DEF_INPUTS=medium.input
+DEF_INPUTS=large.input
 
 #don't modify from here
 

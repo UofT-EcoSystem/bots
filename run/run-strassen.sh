@@ -1,7 +1,8 @@
 #!/bin/bash
 #defaults
 
-DEF_INPUTS=1024
+#DEF_INPUTS=1024
+DEF_INPUTS=4096
 
 #don't modify from here
 
