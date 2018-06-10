@@ -10,7 +10,7 @@ then
 	exit 1
 elif test -z $1
 then
-	echo "Usage: bash $0 <num_repeats> <result dir>"
+	echo "Usage: bash $0 <num_repeats> <run_dir> <result dir>"
 	echo "<num_repeats> need to be positive!"
 	exit 1
 else 
