@@ -8,6 +8,7 @@ show_help ()
    echo "--compiler name    Configures BOTS for given compiler"
    echo "                   Supported compilers: Clang, GCC, ICC, SunStudio, PGI, XLC and  Mercurium"
    echo "--debug            Enables debug flags"
+   echo "--extra-flags      Some extra flags to turn off clang opts."
    echo "--warnings         Force warnings to be reported as errors"
    echo "--help             Prints this help"
 }
@@ -20,6 +21,8 @@ while [ "$#" -gt 0  ]; do
          ;;
       --compiler) shift; COMPILER=$1
          ;;
+	  --extra-flags) shift; EXTRA_FLAGS=$1
+		 ;;
       --help) 
          show_help
          exit
@@ -108,8 +111,9 @@ if [ "$COMPILER" = "clang" -a "$LLV" = "yes" ]; then
    [ "$warnings" = "yes" ] && WARNINGS="$WARNINGS -Wall -Werror"
 
    OPT_FLAGS=-Ofast
-   CC_FLAGS="$DEBUG $WARNINGS"
-   OMPC_FLAGS="$DEBUG $WARNINGS"
+   echo $EXTRA_FLAGS
+   CC_FLAGS="$DEBUG $EXTRA_FLAGS $WARNINGS"
+   OMPC_FLAGS="$DEBUG $EXTRA_FLAGS $WARNINGS"
    CLINK_FLAGS=$DEBUG
    OMPLINK_FLAGS=$DEBUG
 fi
